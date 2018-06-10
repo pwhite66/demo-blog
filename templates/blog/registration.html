@@ -1,0 +1,11 @@
+{% extends 'base/base_modal_form.html' %}
+
+{% block form_header %}Registration{% endblock %}
+
+{% block submit_text %}Register{% endblock %}
+
+{% block form_footer %}
+<div class="panel-footer ">
+    <a href="{% url 'login' %}" onClick=""> Login to your account </a>
+</div>
+{% endblock %}

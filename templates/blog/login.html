@@ -1,0 +1,25 @@
+{% extends 'base/base_modal_form.html' %}
+
+{% block form_header %}Sign In{% endblock %}
+
+{% block form_head %}
+{% if view.get_message_type != None %}
+<div class="alert alert-{{ view.get_message_type }}" role="alert">
+    {% include 'non-user/login_messages.html' with message_code=view.get_message %}
+</div>
+{% endif %}
+<div class="row">
+    <div class="center-block">
+        <img class="profile-img"
+             src="/static/img/photo.png" alt="">
+    </div>
+</div>
+{% endblock %}
+
+{% block submit_text %}Sign in{% endblock %}
+
+{% block form_footer %}
+<div class="panel-footer ">
+</div>
+
+{% endblock %}

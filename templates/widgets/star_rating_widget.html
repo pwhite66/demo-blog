@@ -1,0 +1,30 @@
+<input type="hidden" id="id_{{ widget.name }}" name="{{ widget.name }}" value="{% if widget.value is not None %}{{ widget.value }}{% endif %}" />
+
+<i id="{{ widget.name }}_1s" class="{{ widget.outline }}" style="cursor: pointer;" aria-hidden="true" onclick="{{ widget.name }}_update(1);"></i>
+<i id="{{ widget.name }}_2s" class="{{ widget.outline }}" style="cursor: pointer;" aria-hidden="true" onclick="{{ widget.name }}_update(2);"></i>
+<i id="{{ widget.name }}_3s" class="{{ widget.outline }}" style="cursor: pointer;" aria-hidden="true" onclick="{{ widget.name }}_update(3);"></i>
+<i id="{{ widget.name }}_4s" class="{{ widget.outline }}" style="cursor: pointer;" aria-hidden="true" onclick="{{ widget.name }}_update(4);"></i>
+<i id="{{ widget.name }}_5s" class="{{ widget.outline }}" style="cursor: pointer;" aria-hidden="true" onclick="{{ widget.name }}_update(5);"></i>
+
+<script>
+    function {{ widget.name }}_update(value){
+        var blank_star = '{{ widget.outline }}';
+        var full_star = '{{ widget.full }}';
+
+        document.getElementById("id_{{ widget.name }}").value = value;
+        for( var i = 1 ; i < 6 ; i++){
+            icon_id = "{{ widget.name }}_"+i+"s";
+            if( i <= value){
+                document.getElementById(icon_id).className = full_star;
+            }else{
+                document.getElementById(icon_id).className = blank_star;
+            }
+
+        }
+    }
+
+    {% if widget.value is not None %}
+        {{ widget.name }}_update({{ widget.value }});
+    {% endif %}
+</script>
+

@@ -1,0 +1,64 @@
+{% extends 'base/base.html' %}
+
+{% block header %}Blog List{% endblock %}
+
+{% block content_data %}
+    <div class="row">
+        <div class="list-group" id="blog_root"></div>
+    </div>
+
+    <div style="visibility: hidden">
+        <a href="#" name="blog_links" class="list-group-item" id="default">
+          <h4 class="list-group-item-heading">List group item heading</h4>
+          <p class="list-group-item-text">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
+        </a>
+    </div>
+{% endblock %}
+
+
+
+{% block end_script %}
+    var blog_details_url = '{% url 'blog:blog_details' 'FFFFFFFFFF' %}'
+    var last_update = '';
+
+    function update_blog_data(initial){
+        $.ajax({
+            url: "{% url 'blog:blog_list_ajax' %}",
+            data: {"date": last_update},
+            success: function(result){
+                Object.keys(result).forEach(function(key) {
+                    var status = result[key].status;
+                    if( status == 1){
+                        add_blog_entry(key, result[key]);
+                    }
+                    if(status == 2){
+                        update_blog_entry(key, result[key]);
+                    }
+                });
+            }
+        });
+        last_update = new Date().toLocaleString();
+    }
+    update_blog_data(true);
+    setInterval(update_blog_data, 60000);
+
+    function add_blog_entry(id, data){
+        var cloned = $("#default").clone();
+        cloned.attr('id', id);
+        blog_url = blog_details_url.replace('FFFFFFFFFF', id);
+        cloned.attr('href', blog_url);
+        update_blog_details(cloned, data);
+        cloned.appendTo("#blog_root");
+
+    }
+
+    function update_blog_entry(id, data){
+        var blog = $('#'+id);
+        update_blog_details(blog, data);
+    }
+
+    function update_blog_details(object, data){
+        object.find('h4').html(data.title);
+        object.find('p').html("By " + data.author + "<br />" + data.created);
+    }
+{% endblock %}
